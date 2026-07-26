@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Video } from '@/entities/Video';
-import { Search, Tag, Calendar, Eye } from 'lucide-react';
+import { Search, Filter, Tag, Calendar, Eye } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';

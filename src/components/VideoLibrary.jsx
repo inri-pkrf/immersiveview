@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Video } from '@/entities/Video';
-import { Search, Play, Calendar, MapPin, AlertTriangle } from 'lucide-react';
+import { Search, Play, Calendar, MapPin, AlertTriangle, Clock } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -114,15 +115,15 @@ export default function VideoLibrary({ onVideoSelect, selectedVideo }) {
     });
     
     const TagFilter = ({ type, title, icon, data }) => (
-        <div className="flex-1 min-w-[clamp(120px,12vw,350px)]">
-            <div className="flex items-center gap-[clamp(0.375rem,0.52vw,1rem)] mb-[clamp(0.375rem,0.52vw,1rem)]">
+        <div className="flex-1 min-w-[150px]">
+            <div className="flex items-center gap-2 mb-2">
                 {icon}
-                <h4 className="text-[clamp(0.875rem,0.9375vw,2.5rem)] font-normal text-white">{title}:</h4>
+                <h4 className="text-lg font-normal text-white">{title}:</h4>
             </div>
-            <div className="flex flex-wrap gap-[clamp(0.375rem,0.52vw,1rem)]">
+            <div className="flex flex-wrap gap-1.5">
                 <Badge
                     variant={selectedTags[type] === '' ? "default" : "outline"}
-                    className={`cursor-pointer text-[clamp(0.75rem,0.833vw,2rem)] font-normal smooth-transition ${
+                    className={`cursor-pointer text-base font-normal smooth-transition ${
                         selectedTags[type] === '' 
                             ? 'bg-[#007AFF] text-white' 
                             : `border-[#3A3A3C] text-[#8E8E93] hover:bg-[#1C1C1E] hover:border-[#007AFF]/50`
@@ -135,7 +136,7 @@ export default function VideoLibrary({ onVideoSelect, selectedVideo }) {
                     <Badge
                         key={tag}
                         variant={selectedTags[type] === tag ? "default" : "outline"}
-                        className={`cursor-pointer text-[clamp(0.75rem,0.833vw,2rem)] font-normal smooth-transition ${
+                        className={`cursor-pointer text-base font-normal smooth-transition ${
                             selectedTags[type] === tag 
                                 ? 'bg-[#007AFF] text-white' 
                                 : `border-[#3A3A3C] text-[#8E8E93] hover:bg-[#1C1C1E] hover:border-[#007AFF]/50`
@@ -153,20 +154,20 @@ export default function VideoLibrary({ onVideoSelect, selectedVideo }) {
     if (error) {
         return (
             <div className="h-screen bg-[#0A0A0B] flex flex-col">
-                <div className="p-[clamp(1rem,1.04vw,2.5rem)] border-b border-[#3A3A3C] flex-shrink-0">
-                    <h2 className="text-[clamp(1.75rem,1.875vw,5rem)] font-bold text-white mb-[clamp(1rem,1.04vw,2.5rem)] tracking-wide karantina-title">ספריית סרטונים</h2>
+                <div className="p-4 border-b border-[#3A3A3C] flex-shrink-0">
+                    <h2 className="text-4xl font-bold text-white mb-4 tracking-wide karantina-title">ספריית סרטונים</h2>
                 </div>
                 <div className="flex-1 flex items-center justify-center">
                     <div className="text-center">
-                        <div className="text-red-400 text-[clamp(0.875rem,0.9375vw,2.5rem)] mb-[clamp(1rem,1.04vw,2.5rem)]">{error}</div>
+                        <div className="text-red-400 text-lg mb-4">{error}</div>
                         <button 
                             onClick={() => loadVideos(0)}
-                            className="bg-[#007AFF] text-white px-[clamp(1.5rem,1.5625vw,4rem)] py-[clamp(0.75rem,0.78vw,2rem)] rounded-lg hover:bg-[#0056CC] transition-colors text-[clamp(0.875rem,0.9375vw,2.5rem)]"
+                            className="bg-[#007AFF] text-white px-6 py-3 rounded-lg hover:bg-[#0056CC] transition-colors"
                         >
                             נסה שוב
                         </button>
                         {retryCount > 0 && (
-                            <div className="text-[#8E8E93] mt-[clamp(0.5rem,0.52vw,1.25rem)] text-[clamp(0.625rem,0.625vw,1.5rem)]">
+                            <div className="text-[#8E8E93] mt-2 text-sm">
                                 מנסה שוב... (ניסיון {retryCount}/3)
                             </div>
                         )}
@@ -179,40 +180,40 @@ export default function VideoLibrary({ onVideoSelect, selectedVideo }) {
     return (
         <div className="h-screen bg-[#0A0A0B] flex flex-col">
             {/* Header */}
-            <div className="p-[clamp(1rem,1.04vw,2.5rem)] border-b border-[#3A3A3C] flex-shrink-0">
-                <h2 className="text-[clamp(1.75rem,1.875vw,5rem)] font-bold text-white mb-[clamp(1rem,1.04vw,2.5rem)] tracking-wide karantina-title">ספריית סרטונים</h2>
+            <div className="p-4 border-b border-[#3A3A3C] flex-shrink-0">
+                <h2 className="text-4xl font-bold text-white mb-4 tracking-wide karantina-title">ספריית סרטונים</h2>
                 
-                <div className="relative mb-[clamp(0.75rem,1.04vw,2.5rem)]">
-                    <Search className="absolute right-[clamp(0.75rem,0.78vw,1.5rem)] top-1/2 transform -translate-y-1/2 w-[clamp(1rem,0.833vw,2rem)] h-[clamp(1rem,0.833vw,2rem)] text-[#8E8E93]" />
+                <div className="relative mb-4">
+                    <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#8E8E93]" />
                     <Input
                         placeholder="חיפוש סרטונים..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="bg-[#1C1C1E] border-[#3A3A3C] text-white text-[clamp(0.875rem,0.9375vw,2.5rem)] pr-[clamp(2.5rem,2.6vw,5rem)] placeholder:text-[#8E8E93] h-[clamp(2.5rem,2.5vw,5rem)] font-normal"
+                        className="bg-[#1C1C1E] border-[#3A3A3C] text-white text-lg pr-10 placeholder:text-[#8E8E93] h-12 font-normal"
                     />
                 </div>
                 
-                <div className="flex flex-row flex-wrap gap-[clamp(0.75rem,1.04vw,2.5rem)]">
-                    <TagFilter type="emergency" title="חירום" icon={<AlertTriangle className="w-[clamp(1.25rem,1.042vw,2.5rem)] h-[clamp(1.25rem,1.042vw,2.5rem)] text-red-400" />} data={availableTags.emergency} />
-                    <TagFilter type="location" title="מיקום" icon={<MapPin className="w-[clamp(1.25rem,1.042vw,2.5rem)] h-[clamp(1.25rem,1.042vw,2.5rem)] text-blue-400" />} data={availableTags.location} />
-                    <TagFilter type="date" title="תאריך" icon={<Calendar className="w-[clamp(1.25rem,1.042vw,2.5rem)] h-[clamp(1.25rem,1.042vw,2.5rem)] text-green-400" />} data={availableTags.date} />
+                <div className="flex flex-row flex-wrap gap-4">
+                    <TagFilter type="emergency" title="חירום" icon={<AlertTriangle className="w-5 h-5 text-red-400" />} data={availableTags.emergency} />
+                    <TagFilter type="location" title="מיקום" icon={<MapPin className="w-5 h-5 text-blue-400" />} data={availableTags.location} />
+                    <TagFilter type="date" title="תאריך" icon={<Calendar className="w-5 h-5 text-green-400" />} data={availableTags.date} />
                 </div>
 
                 {retryCount > 0 && (
-                    <div className="mt-[clamp(1rem,1.04vw,2.5rem)] text-[#8E8E93] text-[clamp(0.625rem,0.625vw,1.5rem)]">
+                    <div className="mt-4 text-[#8E8E93] text-sm">
                         טוען נתונים... (ניסיון {retryCount}/3)
                     </div>
                 )}
             </div>
 
             {/* Video Grid */}
-            <div className="flex-1 overflow-y-auto p-[clamp(1rem,1.04vw,2.5rem)]">
+            <div className="flex-1 overflow-y-auto p-4">
                 {isLoading ? (
                     <div className="flex items-center justify-center h-full">
-                        <div className="animate-spin rounded-full h-[clamp(2rem,1.667vw,4rem)] w-[clamp(2rem,1.667vw,4rem)] border-b-2 border-[#007AFF]"></div>
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#007AFF]"></div>
                     </div>
                 ) : (
-                    <motion.div layout className="grid grid-cols-4 gap-[clamp(0.5rem,0.625vw,1.5rem)]">
+                    <motion.div layout className="grid grid-cols-3 gap-3">
                         <AnimatePresence>
                             {filteredVideos.map((video) => (
                                 <motion.div
@@ -228,8 +229,8 @@ export default function VideoLibrary({ onVideoSelect, selectedVideo }) {
                                             : 'border-[#3A3A3C] bg-[#1C1C1E] hover:border-[#007AFF]/50 hover:bg-[#007AFF]/5'
                                     }`}
                                 >
-                                    <div className="p-[clamp(0.375rem,0.52vw,1rem)]">
-                                        <div className="aspect-video bg-[#2C2C2E] rounded-md overflow-hidden mb-[clamp(0.375rem,0.52vw,1rem)] relative">
+                                    <div className="p-2">
+                                        <div className="aspect-video bg-[#2C2C2E] rounded-md overflow-hidden mb-2 relative">
                                             {video.thumbnail ? (
                                                 <img
                                                     src={video.thumbnail}
@@ -238,17 +239,17 @@ export default function VideoLibrary({ onVideoSelect, selectedVideo }) {
                                                 />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center">
-                                                    <Play className="w-[clamp(1.5rem,1.667vw,4rem)] h-[clamp(1.5rem,1.667vw,4rem)] text-[#8E8E93]" />
+                                                    <Play className="w-8 h-8 text-[#8E8E93]" />
                                                 </div>
                                             )}
                                         </div>
 
-                                        <h3 className="font-normal text-white text-[clamp(0.75rem,0.833vw,2rem)] line-clamp-2 group-hover:text-[#007AFF] smooth-transition mb-[clamp(0.25rem,0.26vw,0.625rem)] h-[clamp(2.5rem,2.5vw,6rem)]">
+                                        <h3 className="font-normal text-white text-lg line-clamp-2 group-hover:text-[#007AFF] smooth-transition mb-1 h-12">
                                             {video.showTitle}
                                         </h3>
                                         
-                                        <div className="flex items-center gap-[clamp(0.25rem,0.26vw,0.625rem)] text-[clamp(0.625rem,0.625vw,1.5rem)] text-[#8E8E93]">
-                                            <Calendar className="w-[clamp(0.625rem,0.625vw,1.5rem)] h-[clamp(0.625rem,0.625vw,1.5rem)]" />
+                                        <div className="flex items-center gap-1.5 text-sm text-[#8E8E93]">
+                                            <Calendar className="w-3 h-3" />
                                             <span className="font-light">{video.date}</span>
                                         </div>
                                     </div>
@@ -258,8 +259,8 @@ export default function VideoLibrary({ onVideoSelect, selectedVideo }) {
                         
                         {!isLoading && filteredVideos.length === 0 && (
                              <div className="col-span-3 text-center py-12">
-                                <div className="text-[#8E8E93] text-[clamp(0.875rem,0.9375vw,2.5rem)] font-normal mb-2">לא נמצאו סרטונים</div>
-                                <div className="text-[#8E8E93] text-[clamp(0.625rem,0.625vw,1.5rem)] font-light">יש לנסות לשנות את מונחי החיפוש או הסינון</div>
+                                <div className="text-[#8E8E93] text-lg font-normal mb-2">לא נמצאו סרטונים</div>
+                                <div className="text-[#8E8E93] text-sm font-light">יש לנסות לשנות את מונחי החיפוש או הסינון</div>
                             </div>
                         )}
                     </motion.div>
